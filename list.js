@@ -88,7 +88,7 @@ function renderModalities(data) {
 
         actions.innerHTML = `
             <button
-                class="list-item-action"
+                class="list-item-action admin-only"
                 data-action="view"
                 data-id="${modality.documentId}"
                 aria-label="Consultar">
@@ -100,7 +100,7 @@ function renderModalities(data) {
             </button>
 
             <button
-                class="list-item-action"
+                class="list-item-action admin-only"
                 data-action="edit"
                 data-id="${modality.documentId}"
                 aria-label="Editar">
@@ -112,7 +112,7 @@ function renderModalities(data) {
             </button>
 
             <button
-                class="list-item-action"
+                class="list-item-action admin-only"
                 data-action="delete"
                 data-id="${modality.documentId}"
                 aria-label="Eliminar">
@@ -128,6 +128,8 @@ function renderModalities(data) {
         item.appendChild(actions);
 
         article.appendChild(item);
+
+        showLoggedOptions(null);
 
     });
 }
