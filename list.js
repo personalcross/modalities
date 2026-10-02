@@ -86,7 +86,7 @@ function renderModalities(data) {
             "list-item-actions";
 
         actions.innerHTML = `
-            <div>${modality.value} €</div>
+            <div class="list-item-main-value">${modality.value} €</div>
             <button
                 class="list-item-action admin-only"
                 data-action="view"
