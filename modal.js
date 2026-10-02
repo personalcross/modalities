@@ -3,7 +3,7 @@ const categoryOptions = [
     "Até 64 anos de idade",
     "Até 89 anos de idade",
     "De 65 à 89 anos de idade",
-    "Mente e Corpo"
+    "Mente e corpo"
 ];
 
 const modalityModal = document.getElementById("modality-modal");
