@@ -60,5 +60,6 @@ auth.onAuthStateChanged((user) => {
 const logout = document.querySelector('#btn-logout');
 logout.addEventListener('click', (e) => {
     e.preventDefault();
+    localStorage.removeItem("userRole");
     auth.signOut();
 });
