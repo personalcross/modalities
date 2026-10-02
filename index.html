@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script src="https://www.gstatic.com/firebasejs/12.18.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/12.18.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore-compat.js"></script>
+
+    <title>Modalidades | EPC</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="shortcut icon" href="https://personalcross.github.io/assets/favicon/favicon.png">
+    <link rel="stylesheet" href="https://personalcross.github.io/assets/variables.css">
+    <link rel="stylesheet" href="https://personalcross.github.io/assets/global-style.css">
+    <link rel="stylesheet" href="https://personalcross.github.io/assets/components/custom-header.css">
+    <link rel="stylesheet" href="https://personalcross.github.io/assets/components/custom-nav.css">
+    <link rel="stylesheet" href="https://personalcross.github.io/assets/components/hamburger.css">
+    <link rel="stylesheet" href="https://personalcross.github.io/assets/components/settings.css">
+    <link rel="stylesheet" href="https://personalcross.github.io/assets/components/toolbar.css">
+    <link rel="stylesheet" href="https://personalcross.github.io/assets/components/list.css">
+    <link rel="stylesheet" href="https://personalcross.github.io/assets/components/modal.css">
+    <link rel="stylesheet" href="./style.css">
+
+    <!-- must be the last one -->
+    <link rel="stylesheet" href="https://personalcross.github.io/assets/responsive.css">
+</head>
+
+<body>
+    <header class="custom-header">
+        <nav class="custom-nav">
+            <button class="hamburger" aria-label="Toggle navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <span class="custom-nav-links">
+                <a href="https://personalcross.github.io/home">Home</a>
+                <a href="https://personalcross.github.io/checkin">Check-in</a>
+                <a href="https://personalcross.github.io/modalities">Modalidades</a>
+                <a href="https://personalcross.github.io/nosso-time/">Nosso Time</a>
+                <a href="https://personalcross.github.io/perguntas-frequentes/">Perguntas Frequentes</a>
+                <a href="https://personalcross.github.io/sobre/">Sobre</a>
+            </span>
+            <img class="settings-icon" src="https://personalcross.github.io/assets/store/settings.png" alt="settings"
+                width="10%">
+        </nav>
+    </header>
+
+    <main>
+        <aside class="settings-sidebar">
+            <button class="close-settings">X</button>
+            <div class="settings-options">
+                <button id="btn-login" class="guest-only">Entrar</button>
+                <button id="btn-signup" class="guest-only">Registrar</button>
+
+                <button id="btn-gym" class="admin-only">Academia</button>
+                <button id="btn-customers" class="admin-only">Clientes</button>
+                <button id="btn-exercises" class="admin-only">Exercícios</button>
+                <button id="btn-prescriptions" class="admin-only">Prescrições</button>
+                <button id="btn-workouts" class="admin-only">Treinos</button>
+
+                <hr class="admin-only" />
+                <button id="btn-manage-accounts" class="admin-only">Gestão de Contas</button>
+                <button id="btn-logout" class="logged-only">Sair</button>
+            </div>
+        </aside>
+
+        <section class="toolbar">
+            <div class="search-bar">
+                <img src="https://personalcross.github.io/assets/store/magnifier.png" alt="Pesquisar">
+
+                <input type="search" id="modalities-search" placeholder="Pesquisar modalidade por nome..."
+                    aria-label="Pesquisar modalidade por nome">
+            </div>
+            <button id="btn-add-modality" class="add-button">
+                <img src="https://personalcross.github.io/assets/store/add.png" alt="">
+            </button>
+        </section>
+
+        <section>
+            <h2 class="section-title">
+                Modalidades
+            </h2>
+            <div id="modalities-list" class="list">
+
+                <p class="list-message">
+                    A carregar modalidades...
+                </p>
+
+            </div>
+        </section>
+
+        <section>
+            <h2 class="section-title">
+                Notas Finais
+            </h2>
+            <p class="note-body">
+                Os valores acima aplicam-se aos pagamentos referents ao mês em curso.
+                Os serviços não mencionados nesta tabela mantêm os valores atualmente praticados.
+                Para qualquer esclarecimento adicional sobre os preços,
+                a nossa equipa está disponível para ajudar.
+            </p>
+            <p class="note-body">
+                Com os melhores cumprimentos,
+            </p>
+            <p class="note-body">
+                A direção EPC.
+            </p>
+        </section>
+
+        <!-- MODALITIES MODAL -->
+        <div id="modality-modal" class="modal">
+            <div class="modal-content">
+                <h2 id="modality-modal-title">
+                    Adicionar modalidade
+                </h2>
+
+                <form id="modality-form">
+                    <input type="hidden" id="modality-document-id">
+
+                    <div class="input-field">
+                        <select id="modality-category" required>
+                            <option value="-1" disabled selected>Selecione</option>
+                            <option value="0">Acima de 90 anos de idade</option>
+                            <option value="1">Até 64 anos de idade</option>
+                            <option value="2">Até 89 anos de idade</option>
+                            <option value="3">De 65 à 89 anos de idade</option>
+                            <option value="4">Mente e Corpo</option>
+                        </select>
+                        <label for="modality-category">Categoria</label>
+                    </div>
+
+                    <div class="input-field">
+                        <input type="text" id="modality-description" required>
+                        <label for="modality-description">Descrição</label>
+                    </div>
+
+                    <div class="input-field">
+                        <input type="number" id="modality-value" required>
+                        <label for="modality-value">Valor</label>
+                    </div>
+
+                    <div class="modal-actions">
+                        <button type="button" id="btn-cancel-modality" class="cancel-button">
+                            Cancelar
+                        </button>
+
+                        <button type="submit" id="btn-save-modality" class="confirm-button">
+                            Salvar
+                        </button>
+
+                        <button type="button" id="btn-close-modality" class="confirm-button">
+                            Fechar
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </main>
+
+    <footer>
+        <div class="highlight">
+            <div class="highlight-logo">
+                <div>
+                    <a href="#">
+                        <img src="https://personalcross.github.io/assets/store/epc-logo.png" alt="logo">
+                    </a>
+                </div>
+            </div>
+            <div class="highlight-social">
+                <p>Siga-nos:</p>
+                <div class="social-links">
+                    <a href="https://www.instagram.com/ep.cross?igsi=NGg0cnl1aTFvYTFr" aria-label="Instagram"
+                        target="_blank" rel="noopener noreferrer">
+                        <img src="https://www.vectorlogo.zone/logos/instagram/instagram-tile.svg" alt="instagram">
+                    </a>
+                    <a href="https://www.instagram.com/ep.cross?igsi=NGg0cnl1aTFvYTFr" aria-label="LinkedIn"
+                        target="_blank" rel="noopener noreferrer">
+                        <img src="https://www.vectorlogo.zone/logos/linkedin/linkedin-tile.svg" alt="linkedin">
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="copyright">
+            © <span id="current-year"></span> Estúdio Personal Cross · Todos os direitos reservados
+        </div>
+    </footer>
+
+    <script src="cs.js"></script>
+    <script src="config.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="hamburgerui.js"></script>
+    <script src="sidebarui.js"></script>
+    <script src="auth.js"></script>
+    <script src="time.js"></script>
+    <script src="modal.js"></script>
+    <script src="list.js"></script>
+</body>
+
+</html>
