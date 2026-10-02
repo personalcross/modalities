@@ -129,7 +129,9 @@ function renderModalities(data) {
 
         article.appendChild(item);
 
-        showLoggedOptions(null);
+        if (!checkIfAdmin()) {
+            showLoggedOptions(null);
+        }
 
     });
 }
