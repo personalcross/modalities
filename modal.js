@@ -125,7 +125,7 @@ function validateModality(data) {
         return false;
     }
 
-    if (!data.modalityDescription) {
+    if (!data.description) {
         M.toast({
             html: "Informe a descrição."
         });
@@ -134,7 +134,7 @@ function validateModality(data) {
         return false;
     }
 
-    if (!data.modalityValue) {
+    if (!data.value) {
         M.toast({
             html: "Informe o valor."
         });
