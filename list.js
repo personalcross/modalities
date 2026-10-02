@@ -77,8 +77,7 @@ function renderModalities(data) {
             "list-item-main-value";
 
         name.textContent =
-            `${modality.description} | ` +
-            `${modality.value} €`;
+            `${modality.description}`;
 
         const actions =
             document.createElement("div");
@@ -87,6 +86,7 @@ function renderModalities(data) {
             "list-item-actions";
 
         actions.innerHTML = `
+            <div>${modality.value} €</div>
             <button
                 class="list-item-action admin-only"
                 data-action="view"
