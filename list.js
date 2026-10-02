@@ -21,19 +21,70 @@ function renderModalities(data) {
         return;
     }
 
+    const categoryArticles = {};
+
     data.forEach(modality => {
 
-        const item = document.createElement("div");
-        item.className = "list-item";
+        const category =
+            modality.category || "Sem categoria";
 
-        const name = document.createElement("span");
+        if (categoryArticles[category]) {
+            return;
+        }
 
-        name.className = "list-item-main-value";
-        name.textContent = modality.category + " | " + modality.description + " | " + modality.value + " €";
-        
-        const actions = document.createElement("div");
+        const article =
+            document.createElement("article");
 
-        actions.className = "list-item-actions";
+        article.className =
+            "modalities-category";
+
+        article.dataset.category =
+            category;
+
+        const header =
+            document.createElement("h3");
+
+        header.textContent =
+            `${category}`;
+
+        article.appendChild(header);
+
+        modalitiesList.appendChild(article);
+
+        categoryArticles[category] =
+            article;
+
+    });
+
+    data.forEach(modality => {
+
+        const category =
+            modality.category || "Sem categoria";
+
+        const article =
+            categoryArticles[category];
+
+        const item =
+            document.createElement("div");
+
+        item.className =
+            "list-item";
+
+        const name =
+            document.createElement("span");
+
+        name.className =
+            "list-item-main-value";
+
+        name.textContent =
+            `${modality.description} | ` +
+            `${modality.value} €`;
+
+        const actions =
+            document.createElement("div");
+
+        actions.className =
+            "list-item-actions";
 
         actions.innerHTML = `
             <button
@@ -64,7 +115,7 @@ function renderModalities(data) {
                 class="list-item-action"
                 data-action="delete"
                 data-id="${modality.documentId}"
-                aria-label="Editar">
+                aria-label="Eliminar">
 
                 <img
                     src="https://personalcross.github.io/assets/store/trash.png"
@@ -76,7 +127,7 @@ function renderModalities(data) {
         item.appendChild(name);
         item.appendChild(actions);
 
-        modalitiesList.appendChild(item);
+        article.appendChild(item);
 
     });
 }
